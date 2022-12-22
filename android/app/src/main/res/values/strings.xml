@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Ibadah On Sea</string>
+    <string name="title_activity_main">Ibadah On Sea</string>
+    <string name="package_name">com.ibadah.app</string>
+    <string name="custom_url_scheme">com.ibadah.app</string>
+</resources>

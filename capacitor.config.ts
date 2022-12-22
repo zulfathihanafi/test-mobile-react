@@ -4,7 +4,8 @@ const config: CapacitorConfig = {
   appId: 'com.ibadah.app',
   appName: 'Ibadah On Sea',
   webDir: 'build',
-  bundledWebRuntime: false
+  bundledWebRuntime: false,
+  
 };
 
 export default config;
