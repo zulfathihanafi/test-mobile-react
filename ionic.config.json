@@ -1,5 +1,8 @@
+
 {
   "name": "ibadah",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "react"
 }

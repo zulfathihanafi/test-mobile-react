@@ -10,6 +10,12 @@ import {
 } from "react-router-dom";
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard';
+import Aurat from './pages/Aurat';
+import Bersuci from './pages/Bersuci';
+import Pemakanan from './pages/Pemakanan';
+import Puasa from './pages/Puasa';
+import Solat from './pages/Solat';
+import Zakat from './pages/Zakat';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -19,8 +25,13 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />}>
-          <Route path="" element={<Login />} />
-          <Route path="/app/dashboard" element={<Dashboard/>} />
+          <Route path="" element={<Dashboard />} />
+          <Route path="/aurat" element={<Aurat />} />
+          <Route path="/bersuci" element={<Bersuci />} />
+          <Route path="/pemakanan" element={<Pemakanan />} />
+          <Route path="/puasa" element={<Puasa/>} />
+          <Route path="/solat" element={<Solat/>} />
+          <Route path="/zakat" element={<Zakat/>} />
           <Route
             path="*"
             element={

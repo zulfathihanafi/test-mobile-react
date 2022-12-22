@@ -16,14 +16,14 @@ import '@ionic/react/css/text-transformation.css';
 import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
 import { setupIonicReact } from '@ionic/react';
+import MenuBar from './components/MenuBar';
 
 setupIonicReact();
 
 function App() {
   return (
-    <div style={{ margin: "1rem" }}>
-    <h1>Test App</h1>
-    <Outlet />
+    <div style={{ margin: "0 1rem 0 1rem", paddingTop: "env(safe-area-inset-top)" }}>
+    <MenuBar />
   </div>
   );
 }
