@@ -1,16 +1,9 @@
-import { useState, useRef } from 'react';
 import {
     IonAccordion,
-    IonAccordionGroup,
-    IonItem,
-    IonLabel,
-    IonButton,
-    IonIcon,
-    IonButtons, IonModal, IonHeader, IonContent, IonToolbar, IonTitle, IonPage, IonApp, IonAvatar,
-    IonImg, IonList
+    IonAccordionGroup, IonButton, IonContent, IonIcon, IonItem,
+    IonLabel, IonList, IonModal
 } from '@ionic/react';
-import { star, homeOutline, list } from 'ionicons/icons';
-import { OverlayEventDetail } from '@ionic/core/components';
+import { list } from 'ionicons/icons';
 
 interface QuestionData {
     soalan: string,
@@ -24,10 +17,10 @@ const QuestionAccordion = (props: any) => {
         <>
             <IonAccordion value={props.index}>
                 <IonItem slot="header" color="light">
-                    <IonLabel> {props.index + 1} {data.soalan}</IonLabel>
+                    <p style={{fontSize:'0.8rem', fontWeight:'bold'}}>{data.soalan}</p>
                 </IonItem>
                 <div className="ion-padding" slot="content" style={{ textJustify: 'auto', textAlign: 'justify' }}>
-                    <p style={{ whiteSpace: 'pre-line' }}>{data.jawapan}</p>
+                    <p style={{ whiteSpace: 'pre-line',fontSize:'0.8rem' }}>{data.jawapan}</p>
 
 
                     <IonButton id={`open-modal-${props.index}`} expand="block">
@@ -89,7 +82,7 @@ const Bersuci = () => {
 
 
             <h2>Bersuci </h2>
-            <IonAccordionGroup>
+            <IonAccordionGroup expand="inset">
                 {bersuciData.map((data, index) => {
                     return (
                         <>
