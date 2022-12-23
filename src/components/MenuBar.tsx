@@ -68,7 +68,7 @@ function MenuBar() {
       <IonMenu contentId="main-content">
         <IonHeader>
           <IonToolbar>
-            <IonTitle>Ibadah</IonTitle>
+            <IonTitle>e-Pamil</IonTitle>
           </IonToolbar>
         </IonHeader>
         <IonContent className="ion-padding">
@@ -83,7 +83,7 @@ function MenuBar() {
             <IonButtons slot="start">
               <IonMenuButton></IonMenuButton>
             </IonButtons>
-            <IonTitle>{title}</IonTitle>
+            <IonTitle>e-Pamil</IonTitle>
           </IonToolbar>
         </IonHeader>
         <IonContent className="ion-padding">

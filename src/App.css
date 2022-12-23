@@ -1,4 +1,4 @@
-ion-item::part(native) {
+/* ion-item::part(native) {
   background: inherit;
   color: rgb(29, 29, 29);
 }
@@ -11,7 +11,7 @@ ion-item::part(detail-icon) {
 ion-item::part(native):hover,ion-item::part(detail-icon):hover  {
   color:#fff;
   background: rgb(102, 97, 97);
-}
+} */
 
 .link {
   color: rgb(145, 26, 26);
