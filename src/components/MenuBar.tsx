@@ -10,11 +10,15 @@ import {
   IonToolbar,
   IonLabel,
   IonItem,
-  IonMenuToggle
+  IonMenuToggle,
+  IonButton,
+  IonIcon
 } from '@ionic/react';
 import { Outlet, Link } from "react-router-dom";
+import { star, homeOutline } from 'ionicons/icons';
 
 const linkData = [
+  { title: 'Dashboard', link: '/' },
   { title: 'Bersuci', link: 'bersuci' },
   { title: 'Solat', link: 'solat' },
   { title: 'Puasa', link: 'puasa' },
@@ -24,7 +28,8 @@ const linkData = [
 ]
 const Item = (props: any) => {
   return (
-    <IonMenuToggle>
+    
+    <IonMenuToggle onClick={() => { props.setTitle(props.title) }}>
       <Link to={props.link} className='link'>
         <IonItem button detail lines="full">
           <IonLabel>
@@ -33,9 +38,31 @@ const Item = (props: any) => {
         </IonItem>
       </Link>
     </IonMenuToggle>
+
+
   )
 }
+
+const ItemDashboard = (props: any) => {
+  return (
+    <div style={{ paddingBottom: '20px' }} >
+      <IonMenuToggle onClick={() => { props.setTitle(props.title) }}>
+        <Link to={props.link} className='link' >
+
+          <IonButton expand="full">
+            <IonIcon slot="start" icon={homeOutline}></IonIcon>
+            Home
+          </IonButton>
+        </Link>
+      </IonMenuToggle>
+    </div>
+
+  )
+}
+
 function MenuBar() {
+  const [title, setTitle] = React.useState('Dashboard')
+
   return (
     <>
       <IonMenu contentId="main-content">
@@ -46,7 +73,7 @@ function MenuBar() {
         </IonHeader>
         <IonContent className="ion-padding">
           {linkData.map((data) => (
-            <Item link={data.link} title={data.title} />
+            data.link === "/" ? <ItemDashboard link={data.link} title ={data.title} setTitle={setTitle} /> : <Item link={data.link} title={data.title} setTitle={setTitle} />
           ))}
         </IonContent>
       </IonMenu>
@@ -56,7 +83,7 @@ function MenuBar() {
             <IonButtons slot="start">
               <IonMenuButton></IonMenuButton>
             </IonButtons>
-            <IonTitle>Menu</IonTitle>
+            <IonTitle>{title}</IonTitle>
           </IonToolbar>
         </IonHeader>
         <IonContent className="ion-padding">

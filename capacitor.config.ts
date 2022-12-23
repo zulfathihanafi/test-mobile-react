@@ -5,10 +5,10 @@ const config: CapacitorConfig = {
   appName: 'ibadah',
   webDir: 'build',
   bundledWebRuntime: false,
-  server: {
-    url: 'http://10.167.60.170:3000',
-    cleartext: true
-  },
+  // server: {
+  //   url: 'http://10.167.60.170:3000',
+  //   cleartext: true
+  // },
 };
 
 export default config;
