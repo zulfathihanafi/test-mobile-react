@@ -1,4 +1,4 @@
-import { useNavigate,Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import React from 'react';
 import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonGrid, IonRow } from '@ionic/react';
 // import './main.css';
@@ -9,7 +9,7 @@ const ContentCard = (props: any) => {
       {props.link !== "/" &&
         <IonCard>
           <Link to={props.link} className='link' >
-            <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" height={'150px'} width="100%" />
+            <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" height={'auto'} width="100%" />
             <IonCardHeader>
               <IonCardTitle>{props.title}</IonCardTitle>
               <IonCardSubtitle>Card Subtitle</IonCardSubtitle>
@@ -24,7 +24,6 @@ const ContentCard = (props: any) => {
 
 function Dashboard() {
   const linkData = [
-    { title: 'Dashboard', link: '/' },
     { title: 'Bersuci', link: 'bersuci' },
     { title: 'Solat', link: 'solat' },
     { title: 'Puasa', link: 'puasa' },
@@ -42,12 +41,15 @@ function Dashboard() {
     <>
       <h2>Pilih bab yang diinginkan</h2>
       <IonGrid>
-        <IonRow>
+        <IonRow >
           {linkData.map((data) => {
             return (
-              <IonCol size-xs="12" size-md="4" size-lg="2">
+
+              <IonCol size-xs="12" size-md="4" size-lg="4">
                 <ContentCard title={data.title} link={data.link} />
               </IonCol>
+
+
             )
           })}
         </IonRow>
