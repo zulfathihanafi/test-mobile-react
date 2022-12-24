@@ -4,7 +4,7 @@ import {
     IonLabel, IonList, IonModal
 } from '@ionic/react';
 import { list } from 'ionicons/icons';
-
+import { useState } from 'react';
 interface QuestionData {
     soalan: string,
     jawapan: string,
@@ -12,16 +12,21 @@ interface QuestionData {
 }
 
 const QuestionAccordion = (props: any) => {
-
+    const [showMore, setShowMore] = useState(false);
     const data: QuestionData = props.data
     return (
         <>
             <IonAccordion value={props.index}>
                 <IonItem slot="header" color="light">
-                    <p style={{fontSize:'0.8rem', fontWeight:'bold'}}>{data.soalan}</p>
+                    <p style={{ fontSize: '0.8rem', fontWeight: 'bold' }}>{data.soalan}</p>
                 </IonItem>
                 <div className="ion-padding" slot="content" style={{ textJustify: 'auto', textAlign: 'justify' }}>
-                    <p style={{ whiteSpace: 'pre-line',fontSize:'0.8rem' }}>{data.jawapan}</p>
+                    <p style={{ whiteSpace: 'pre-line', fontSize: '0.8rem' }}>
+                        {showMore ? data.jawapan : `${data.jawapan.substring(0, 300)}`}
+                        <button className="btn" onClick={() => setShowMore(!showMore)} style={{backgroundColor:'inherit', color:'#4691fa',whiteSpace: 'pre-line'}}>
+                            {showMore ? "\tshow less" : "\t...show more"}
+                        </button>
+                    </p>
 
 
                     <IonButton id={`open-modal-${props.index}`} expand="block">
@@ -33,7 +38,7 @@ const QuestionAccordion = (props: any) => {
                             <IonList>
                                 {data.rujukan.map((data: any) => {
                                     return (
-                                        <p style={{whiteSpace: 'pre-line'}}>{data.text}</p>
+                                        <p style={{ whiteSpace: 'pre-line' }}>{data.text}</p>
                                     )
                                 })}
                                 <IonItem>
@@ -53,8 +58,8 @@ const QuestionAccordion = (props: any) => {
 }
 
 
-const QuestionsPages = (props:any) => {
-    const questionsData:[QuestionData] = props.data
+const QuestionsPages = (props: any) => {
+    const questionsData: [QuestionData] = props.data
     return (
         <div>
 
