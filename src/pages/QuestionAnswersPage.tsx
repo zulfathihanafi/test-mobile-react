@@ -33,7 +33,7 @@ const QuestionAccordion = (props: any) => {
                             <IonList>
                                 {data.rujukan.map((data: any) => {
                                     return (
-                                        <p>{data.text}</p>
+                                        <p style={{whiteSpace: 'pre-line'}}>{data.text}</p>
                                     )
                                 })}
                                 <IonItem>

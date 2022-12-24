@@ -12,7 +12,7 @@ import Login from './pages/Login'
 import Dashboard from './pages/Dashboard';
 import QuestionsPages from './pages/QuestionAnswersPage';
 
-import { auratData } from './data';
+import { bersuciData, puasaData, solatData, zakatData, pemakananData } from './data';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
@@ -22,12 +22,12 @@ root.render(
       <Routes>
         <Route path="/" element={<App />}>
           <Route path="" element={<Dashboard />} />
-          <Route path="/aurat" element={<QuestionsPages data={auratData} title={'Aurat'} />} />
-          <Route path="/bersuci" element={<QuestionsPages data={auratData} title={'Bersuci'} />} />
-          <Route path="/pemakanan" element={<QuestionsPages data={auratData} title={'Pemakanan'} />} />
-          <Route path="/puasa" element={<QuestionsPages data={auratData} title={'Puasa'} />} />
-          <Route path="/solat" element={<QuestionsPages data={auratData} title={'Solat'} />} />
-          <Route path="/zakat" element={<QuestionsPages data={auratData} title={'Zakat'} />} />
+          <Route path="/aurat" element={<QuestionsPages data={bersuciData} title={'Aurat *no data'} />} />
+          <Route path="/bersuci" element={<QuestionsPages data={bersuciData} title={'Bersuci'} />} />
+          <Route path="/pemakanan" element={<QuestionsPages data={pemakananData} title={'Pemakanan'} />} />
+          <Route path="/puasa" element={<QuestionsPages data={puasaData} title={'Puasa'} />} />
+          <Route path="/solat" element={<QuestionsPages data={solatData} title={'Solat'} />} />
+          <Route path="/zakat" element={<QuestionsPages data={zakatData} title={'Zakat'} />} />
           <Route
             path="*"
             element={

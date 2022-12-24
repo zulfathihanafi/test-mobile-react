@@ -67,7 +67,7 @@ function MenuBar() {
     <>
       <IonMenu contentId="main-content">
         <IonHeader>
-          <IonToolbar>
+          <IonToolbar color='primary'>
             <IonTitle>e-Pamil</IonTitle>
           </IonToolbar>
         </IonHeader>
@@ -78,8 +78,8 @@ function MenuBar() {
         </IonContent>
       </IonMenu>
       <IonPage id="main-content">
-        <IonHeader>
-          <IonToolbar>
+        <IonHeader >
+          <IonToolbar color='primary'>
             <IonButtons slot="start">
               <IonMenuButton></IonMenuButton>
             </IonButtons>
