@@ -1,6 +1,6 @@
-import { IonButton, IonCard, IonCardContent, IonIcon, IonInput, IonItem, IonLabel, useIonAlert, useIonLoading, IonTextarea } from "@ionic/react";
+import { IonButton, IonCard, IonCardContent, IonIcon, IonInput, IonItem, IonLabel, useIonAlert, useIonLoading, IonTextarea} from "@ionic/react";
 import { useNavigate } from "react-router-dom";
-import { addCircle } from 'ionicons/icons';
+import { addCircle,add } from 'ionicons/icons';
 import { useState } from "react";
 
 function Ask() {
@@ -31,6 +31,7 @@ function Ask() {
     
     return (
         <>
+        <h2>Tanya Soalan</h2>
             <IonCard>
                 <IonCardContent>
                     <form onSubmit={onSubmit}>
