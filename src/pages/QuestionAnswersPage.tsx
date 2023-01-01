@@ -176,7 +176,7 @@ const QuestionsPages = (props: any) => {
         };
 
         logCurrentNetworkStatus();
-    }, [])
+    }, [props.title])
 
 
 
