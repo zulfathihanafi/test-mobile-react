@@ -65,10 +65,10 @@ const TanyaDashboard = () => {
   return (
     <div style={{paddingTop:'100px'}} >
       <IonMenuToggle>
-        <Link to={'/tanya'} className='link' >
+        <Link to={'/about'} className='link' >
           <IonButton expand="full">
             <IonIcon slot="start" icon={helpCircleOutline}></IonIcon>
-            Tanya Soalan
+            Tentang Kami
           </IonButton>
         </Link>
       </IonMenuToggle>

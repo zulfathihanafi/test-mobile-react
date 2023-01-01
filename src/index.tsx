@@ -13,7 +13,7 @@ import Dashboard from './pages/Dashboard';
 import QuestionsPages from './pages/QuestionAnswersPage';
 
 import { bersuciData, puasaData, solatData, zakatData, pemakananData } from './data';
-import Ask from './pages/Ask';
+import AboutUs from './pages/About';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
@@ -29,7 +29,7 @@ root.render(
           <Route path="/puasa" element={<QuestionsPages data={puasaData} title={'Puasa'} />} />
           <Route path="/solat" element={<QuestionsPages data={solatData} title={'Solat'} />} />
           <Route path="/zakat" element={<QuestionsPages data={zakatData} title={'Zakat'} />} />
-          <Route path="/tanya" element={<Ask />} />
+          <Route path="/about" element={<AboutUs />} />
           <Route
             path="*"
             element={

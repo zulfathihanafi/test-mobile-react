@@ -5,7 +5,14 @@ import {
     useIonAlert, useIonLoading, IonApp
 } from '@ionic/react';
 import { list, add, addCircle } from 'ionicons/icons';
-import { useState } from 'react';
+
+import { useState, useEffect } from 'react';
+
+import { app } from "../firebase"
+
+import { getFirestore, doc, setDoc, addDoc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
+
+import { Network } from "@capacitor/network"
 
 interface QuestionData {
     soalan: string,
@@ -13,10 +20,8 @@ interface QuestionData {
     rujukan: [],
 }
 
-interface QuestionProps {
-    key?: number,
+const db = getFirestore(app);
 
-}
 const QuestionAccordion = (props: any) => {
     const [showMore, setShowMore] = useState(false);
     const data: QuestionData = props.data
@@ -28,10 +33,13 @@ const QuestionAccordion = (props: any) => {
                 </IonItem>
                 <div className="ion-padding" slot="content" style={{ textJustify: 'auto', textAlign: 'justify' }}>
                     <p style={{ whiteSpace: 'pre-line', fontSize: '0.8rem' }}>
-                        {showMore ? data.jawapan : `${data.jawapan.substring(0, 300)}`}
-                        <button className="btn" onClick={() => setShowMore(!showMore)} style={{ backgroundColor: 'inherit', color: '#4691fa', whiteSpace: 'pre-line' }}>
-                            {showMore ? "\tshow less" : "\t...show more"}
-                        </button>
+                        {showMore ? data.jawapan : `${data.jawapan.substring(0, 350)}`}
+
+                        {data.jawapan.length > 350 &&
+                            <button className="btn" onClick={() => setShowMore(!showMore)} style={{ backgroundColor: 'inherit', color: '#4691fa', whiteSpace: 'pre-line' }}>
+                                {showMore ? "\tshow less" : "\t...show more"}
+                            </button>
+                        }
                     </p>
 
 
@@ -64,29 +72,53 @@ const QuestionAccordion = (props: any) => {
 }
 
 const NewQuestionModal = (props: any) => {
+    const [connection, setConnection] = useState(false)
     const [alert] = useIonAlert();
     const [present, dismiss] = useIonLoading();
     const [soalan, setSoalan] = useState('')
+
     const onSubmit = async (event: any) => {
         event.preventDefault();
-        console.log("Soalan : ", soalan ,"Type",props.title)
+        console.log("Soalan : ", soalan, "Type", props.title, "Time", Date.now())
+
+        const newQuestion = {
+            soalan: soalan,
+            jawapan: null,
+            rujukan: null,
+            kategori: props.title,
+            timestamp: Date.now()
+        }
+
+
 
         await present({ message: 'Loading...' })
 
-        setTimeout(() => {
-            dismiss();
-            if (Math.random() < 0.5) {
-                alert({
-                    header: 'Invalid credentials',
-                    message: 'There is no user with that name and password.',
-                    buttons: [{ text: 'Ok' }]
-                })
-                setSoalan('')
-            } else {
 
-            }
-        }, 1500)
+
+        const docRef = await addDoc(collection(db, "soalan"), newQuestion);
+        console.log("Document written with ID: ", docRef.id);
+        if (docRef.id) {
+            props.setModalOpen(false)
+            dismiss()
+            alert({
+                header: 'Soalan berjaya dihantar',
+                message: 'Jawapan akan ditunjukkan pada paparan ini jika soalan ini telah dijawab.',
+                buttons: [{ text: 'Ok' }]
+            })
+            setSoalan('')
+            console.log(docRef.id)
+        }
+
     };
+
+    useEffect(() => {
+        const logCurrentNetworkStatus = async () => {
+            const status = await Network.getStatus();
+            setConnection(status.connected)
+        };
+
+        logCurrentNetworkStatus();
+    }, [])
 
     return (
         <IonCard>
@@ -94,6 +126,10 @@ const NewQuestionModal = (props: any) => {
 
                 <div>
                     <IonLabel>Borang Soalan</IonLabel>
+                    {!connection &&
+                        <p style={{ color: 'red' }}>
+                            Peringatan : Tiada sambungan internet
+                        </p>}
                     <IonTextarea
 
                         autoGrow={true}
@@ -105,7 +141,7 @@ const NewQuestionModal = (props: any) => {
                     ></IonTextarea>
 
                     <div className="ion-margin-top">
-                        <IonButton expand="full" onClick={onSubmit} color="secondary">
+                        <IonButton disabled={!connection} expand="full" onClick={onSubmit} color="secondary" id={`open-modal-${props.title}`}>
                             <IonIcon icon={addCircle} slot="start" />
                             Hantar Soalan</IonButton>
                     </div>
@@ -117,11 +153,37 @@ const NewQuestionModal = (props: any) => {
 
 const QuestionsPages = (props: any) => {
     const questionsData: [QuestionData] = props.data
+    const [modalOpen, setModalOpen] = useState(false)
+    const [additionalQuestions, setAdditionalQuestions] = useState<any>([])
+    const [connection, setConnection] = useState(false)
+    useEffect(() => {
+
+        setAdditionalQuestions([])
+        async function getCities() {
+            const q = query(collection(db, "soalan"), where("kategori", "==", props.title))
+            const querySnapshot = await getDocs(q);
+            setAdditionalQuestions(querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
+            console.log(additionalQuestions)
+        }
+
+        getCities()
+
+        const logCurrentNetworkStatus = async () => {
+            const status = await Network.getStatus();
+
+            console.log('Network status:', status);
+            setConnection(status.connected)
+        };
+
+        logCurrentNetworkStatus();
+    }, [])
+
+
+
+
+
     return (
         <div>
-
-
-
             <h2>{props.title} </h2>
             <IonAccordionGroup expand="inset">
                 {questionsData.map((data, index) => {
@@ -134,19 +196,35 @@ const QuestionsPages = (props: any) => {
             </IonAccordionGroup>
 
             <h2>Soalan Tambahan</h2>
+            {!connection &&
+                <p style={{ color: 'red' }}>
+                    Peringatan : Tiada sambungan internet
+                </p>}
+
+
+            <IonAccordionGroup expand="inset">
+                {additionalQuestions.map((data: any, index: number) => {
+                    return (
+                        <>
+                            <QuestionAccordion key={index} index={"additional-" + index} data={data} />
+                        </>
+                    )
+                })}
+            </IonAccordionGroup>
+
             <IonFab slot="fixed" vertical="bottom" horizontal="end">
-                    <IonFabButton id={`open-modal-${props.title}`}>
-                        <IonIcon icon={add}></IonIcon>
-                    </IonFabButton>
-                </IonFab>
-            
-                <IonModal trigger={`open-modal-${props.title}`} initialBreakpoint={0.75} breakpoints={[0, 0.25, 0.5, 0.75]}>
-                    <IonContent className="ion-padding">
-                        <h2>{props.title}</h2>
-                        <NewQuestionModal title={props.title} />
-                    </IonContent>
-                </IonModal>
-            
+                <IonFabButton onClick={(e) => { setModalOpen(true) }}>
+                    <IonIcon icon={add}></IonIcon>
+                </IonFabButton>
+            </IonFab>
+
+            <IonModal onDidDismiss={() => { setModalOpen(false) }} isOpen={modalOpen} initialBreakpoint={0.75} breakpoints={[0, 0.25, 0.5, 0.75]}>
+                <IonContent className="ion-padding">
+                    <h2>{props.title}</h2>
+                    <NewQuestionModal title={props.title} setModalOpen={setModalOpen} />
+                </IonContent>
+            </IonModal>
+
         </div>
     );
 }

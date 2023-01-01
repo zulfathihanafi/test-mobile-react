@@ -1,0 +1,7 @@
+JSON : 
+{
+    soalan : string,
+    jawapan : string,
+    rujukan : [String],
+    category : enum of types
+}
