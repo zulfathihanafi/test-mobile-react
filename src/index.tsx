@@ -14,6 +14,7 @@ import QuestionsPages from './pages/QuestionAnswersPage';
 
 import { bersuciData, puasaData, solatData, zakatData, pemakananData } from './data';
 import AboutUs from './pages/About';
+import Admin from './pages/Admin';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
@@ -30,6 +31,7 @@ root.render(
           <Route path="/solat" element={<QuestionsPages data={solatData} title={'Solat'} />} />
           <Route path="/zakat" element={<QuestionsPages data={zakatData} title={'Zakat'} />} />
           <Route path="/about" element={<AboutUs />} />
+          <Route path="/admin" element={<Admin />} />
           <Route
             path="*"
             element={
