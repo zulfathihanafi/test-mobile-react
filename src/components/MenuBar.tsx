@@ -49,7 +49,6 @@ const ItemDashboard = (props: any) => {
     <div style={{ paddingBottom: '20px' }} >
       <IonMenuToggle>
         <Link to={props.link} className='link' >
-
           <IonButton expand="full">
             <IonIcon slot="start" icon={homeOutline}></IonIcon>
             Home
@@ -61,11 +60,19 @@ const ItemDashboard = (props: any) => {
   )
 }
 
-const TanyaDashboard = () => {
+const Footer = () => {
   return (
-    <div style={{paddingTop:'100px'}} >
+    <div style={{bottom:'0',padding:'10px 10px',position:'absolute',width:'100%', borderTop:'1px solid #d9d9d9'}} >
       <IonMenuToggle>
-        <Link to={'/about'} className='link' >
+        <Link to={'/admin'} className='link' >
+          <IonButton expand="full">
+            <IonIcon slot="start" icon={helpCircleOutline}></IonIcon>
+            Admin
+          </IonButton>
+        </Link>
+      </IonMenuToggle>
+      <IonMenuToggle>
+        <Link to={'/about'} className='link' relative="path">
           <IonButton expand="full">
             <IonIcon slot="start" icon={helpCircleOutline}></IonIcon>
             Tentang Kami
@@ -93,8 +100,9 @@ function MenuBar() {
           {linkData.map((data) => (
             data.link === "/" ? <ItemDashboard link={data.link} title ={data.title}/> : <Item link={data.link} title={data.title} />
           ))}
-          <TanyaDashboard />
+          
         </IonContent>
+        <Footer />
       </IonMenu>
       <IonPage id="main-content">
         <IonHeader >

@@ -14,10 +14,11 @@ import { getFirestore, doc, setDoc, addDoc, getDoc, collection, query, where, ge
 
 import { Network } from "@capacitor/network"
 
+
 interface QuestionData {
     soalan: string,
     jawapan: string,
-    rujukan: [],
+    rujukan: string,
 }
 
 const db = getFirestore(app);
@@ -50,14 +51,7 @@ const QuestionAccordion = (props: any) => {
                     <IonModal trigger={`open-modal-${props.index}`} initialBreakpoint={0.25} breakpoints={[0, 0.25, 0.5, 0.75]}>
                         <IonContent className="ion-padding">
                             <IonList>
-                                {data.rujukan.map((data: any) => {
-                                    return (
-                                        <p style={{ whiteSpace: 'pre-line' }}>{data.text}</p>
-                                    )
-                                })}
-                                <IonItem>
-
-                                </IonItem>
+                            <p style={{ whiteSpace: 'pre-line' }}>{data.rujukan}</p>
                             </IonList>
                         </IonContent>
                     </IonModal>
@@ -83,8 +77,8 @@ const NewQuestionModal = (props: any) => {
 
         const newQuestion = {
             soalan: soalan,
-            jawapan: null,
-            rujukan: null,
+            jawapan: '',
+            rujukan: '',
             kategori: props.title,
             timestamp: Date.now()
         }
@@ -162,11 +156,13 @@ const QuestionsPages = (props: any) => {
         async function getCities() {
             const q = query(collection(db, "soalan"), where("kategori", "==", props.title))
             const querySnapshot = await getDocs(q);
-            setAdditionalQuestions(querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
-            console.log(additionalQuestions)
+            var data = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+            data = data.filter((doc:any)=> {return(doc.jawapan != '')})
+            setAdditionalQuestions(data)
+            
         }
 
-        getCities()
+        // console.log(ExternalData)
 
         const logCurrentNetworkStatus = async () => {
             const status = await Network.getStatus();

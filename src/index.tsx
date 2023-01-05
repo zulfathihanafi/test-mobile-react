@@ -15,6 +15,7 @@ import QuestionsPages from './pages/QuestionAnswersPage';
 import { bersuciData, puasaData, solatData, zakatData, pemakananData } from './data';
 import AboutUs from './pages/About';
 import Admin from './pages/Admin';
+import AnswerForm from './pages/AnswerForm';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
@@ -24,7 +25,7 @@ root.render(
       <Routes>
         <Route path="/" element={<App />}>
           <Route path="" element={<Dashboard />} />
-          <Route path="/aurat" element={<QuestionsPages data={bersuciData} title={'Aurat *no data'} />} />
+          <Route path="/aurat" element={<QuestionsPages data={bersuciData} title={'Penjagaan Aurat'} />} />
           <Route path="/bersuci" element={<QuestionsPages data={bersuciData} title={'Bersuci'} />} />
           <Route path="/pemakanan" element={<QuestionsPages data={pemakananData} title={'Pemakanan'} />} />
           <Route path="/puasa" element={<QuestionsPages data={puasaData} title={'Puasa'} />} />
@@ -32,6 +33,8 @@ root.render(
           <Route path="/zakat" element={<QuestionsPages data={zakatData} title={'Zakat'} />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/admin/answerform/:id" element={<AnswerForm />} />
+          
           <Route
             path="*"
             element={
