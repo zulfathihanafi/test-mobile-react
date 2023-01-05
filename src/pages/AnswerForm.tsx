@@ -2,7 +2,18 @@ import {
     IonAccordion,
     IonAccordionGroup, IonButton, IonContent, IonIcon, IonItem,
     IonLabel, IonList, IonModal, IonFab, IonFabButton, IonCard, IonCardContent, IonTextarea,
-    useIonAlert, useIonLoading, IonApp
+    useIonAlert, useIonLoading, IonApp, IonBackButton,
+    IonButtons,
+
+    IonHeader,
+
+    IonNavLink,
+    IonToolbar,
+    IonTitle,
+    IonChip,
+    IonGrid,
+    IonRow,
+    IonCol,
 } from '@ionic/react';
 import { list, add, addCircle } from 'ionicons/icons';
 
@@ -34,9 +45,18 @@ const AnswersCard = (props: any) => {
     const [present, dismiss] = useIonLoading();
     const [jawapan, setJawapan] = useState(data.jawapan)
     const [rujukan, setRujukan] = useState(data.rujukan)
-    const [connection, setConnection] = useState(props.connection)
+    const [connection, setConnection] = useState(false)
 
+    useEffect(() => {
+        
+        const logCurrentNetworkStatus = async () => {
+            const status = await Network.getStatus();
+            setConnection(status.connected)
+        };
 
+        logCurrentNetworkStatus();
+        
+    }, [])
 
     const onSubmit = async (event: any) => {
         event.preventDefault();
@@ -44,30 +64,29 @@ const AnswersCard = (props: any) => {
         await present({ message: 'Loading...' })
         // Set the "capital" field of the city 'DC'
         await updateDoc(docRef, {
-            jawapan : jawapan,
-            rujukan : rujukan
-        }).then(()=>{
+            jawapan: jawapan,
+            rujukan: rujukan
+        }).then(() => {
             dismiss()
             alert({
                 header: 'Jawapan berjaya dihantar',
                 message: 'Jawapan akan dipaparkan kepada pengguna.',
                 buttons: [{ text: 'Ok' }]
+            }).then(() => {
+                props.setIsOpen(false) //close the modal
             })
-            // setJawapan('')
+
         });
     };
 
     return (
         <>
-            Jawab Soalan
+            <IonChip color="primary" style={{ fontSize: '0.8rem' }}> {data.kategori}</IonChip>
             <IonCard >
-                <IonCardContent>
-
+                <IonCardContent >
                     <div>
                         <IonLabel style={{ fontSize: '0.8rem', whiteSpace: 'pre-line' }}>
-                            <b>Soalan :</b> {"\n" + data.soalan + "\n"}
-                            <b>Kategori :</b> {data.kategori + "\n"}
-
+                            {data.soalan + "\n"}
                         </IonLabel>
                         {!connection &&
                             <p style={{ color: 'red' }}>
@@ -116,34 +135,13 @@ const AnswerForm = (props: any) => {
     const [present, dismiss] = useIonLoading();
     const [soalan, setSoalan] = useState('')
     const [additionalQuestions, setAdditionalQuestions] = useState<QuestionData>()
-    const { id } = useParams();
+    // const { id } = useParams();
+    const id = props.id
     const navigate = useNavigate();
-
-    useEffect(() => {
-        async function getQuestions() {
-            const docRef = doc(db, "soalan", String(id));
-            const docSnap = await getDoc(docRef);
-            const data: any = docSnap.data()
-            setAdditionalQuestions({...data,id:id})
-            console.log("Snap : ", data)
-        }
-
-        const logCurrentNetworkStatus = async () => {
-            const status = await Network.getStatus();
-            setConnection(status.connected)
-        };
-
-        logCurrentNetworkStatus();
-        getQuestions()
-    }, [])
 
     return (
         <>
-
-            <button onClick={() => { navigate(`../admin`) }}>Home</button>
-
-            {additionalQuestions && <AnswersCard data={additionalQuestions} connection={connection} />}
-
+            <AnswersCard data={props.data}  setIsOpen={props.setIsOpen} />
         </>
     )
 }

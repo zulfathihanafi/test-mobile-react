@@ -16,7 +16,7 @@ import {
   IonApp
 } from '@ionic/react';
 import { Outlet, Link } from "react-router-dom";
-import { star, homeOutline,helpCircleOutline } from 'ionicons/icons';
+import { star, homeOutline, helpCircleOutline } from 'ionicons/icons';
 
 const linkData = [
   { title: 'Dashboard', link: '/' },
@@ -29,7 +29,7 @@ const linkData = [
 ]
 const Item = (props: any) => {
   return (
-    
+
     <IonMenuToggle onClick={() => { props.setTitle(props.title) }}>
       <Link to={props.link} className='link'>
         <IonItem button detail lines="full">
@@ -62,7 +62,7 @@ const ItemDashboard = (props: any) => {
 
 const Footer = () => {
   return (
-    <div style={{bottom:'0',padding:'10px 10px',position:'absolute',width:'100%', borderTop:'1px solid #d9d9d9'}} >
+    <div style={{ bottom: '0', padding: '10px 10px', position: 'absolute', width: '100%', borderTop: '1px solid #d9d9d9' }} >
       <IonMenuToggle>
         <Link to={'/admin'} className='link' >
           <IonButton expand="full">
@@ -86,21 +86,20 @@ const Footer = () => {
 
 
 function MenuBar() {
-  
+
 
   return (
     <IonApp>
       <IonMenu contentId="main-content" >
         <IonHeader>
-          <IonToolbar color='primary' > 
+          <IonToolbar color='primary' >
             <IonTitle>e-Pamil</IonTitle>
           </IonToolbar>
         </IonHeader>
         <IonContent className="ion-padding" >
-          {linkData.map((data) => (
-            data.link === "/" ? <ItemDashboard link={data.link} title ={data.title}/> : <Item link={data.link} title={data.title} />
+          {linkData.map((data,index) => (
+            data.link === "/" ? <ItemDashboard key={index} link={data.link} title={data.title} /> : <Item key={index} link={data.link} title={data.title} />
           ))}
-          
         </IonContent>
         <Footer />
       </IonMenu>
@@ -114,7 +113,9 @@ function MenuBar() {
           </IonToolbar>
         </IonHeader>
         <IonContent className="ion-padding">
+
           <Outlet />
+
         </IonContent>
       </IonPage>
     </IonApp>

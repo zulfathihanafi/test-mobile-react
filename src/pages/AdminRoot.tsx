@@ -1,8 +1,8 @@
 import {
-    IonAccordion, IonItemDivider, IonNavLink, IonChip,
+    IonAccordion, IonItemDivider,IonNavLink,
     IonAccordionGroup, IonButton, IonContent, IonIcon, IonItem,
     IonLabel, IonList, IonModal, IonFab, IonFabButton, IonCard, IonCardContent, IonTextarea,
-    useIonAlert, useIonLoading, IonApp, IonCol, IonGrid, IonRow, IonSelect, IonSelectOption, IonHeader, IonToolbar, IonTitle, IonButtons
+    useIonAlert, useIonLoading, IonApp, IonCol, IonGrid, IonRow, IonSelect, IonSelectOption
 } from '@ionic/react';
 import { list, add, addCircle } from 'ionicons/icons';
 
@@ -15,13 +15,11 @@ import { getFirestore, doc, setDoc, addDoc, getDoc, collection, query, where, ge
 import { Network } from "@capacitor/network"
 
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import AnswerForm from './AnswerForm';
 interface QuestionData {
     soalan: string,
     jawapan: string,
     rujukan: string,
-    kategori: string,
-    id: string
+    kategori: string
 }
 
 const db = getFirestore(app);
@@ -33,56 +31,68 @@ const AnswersCard = (props: any) => {
     const [jawapan, setJawapan] = useState(data.jawapan)
     const [rujukan, setRujukan] = useState(data.rujukan)
     const [connection, setConnection] = useState(props.connection)
-    const [isOpen, setIsOpen] = useState(false);
 
-    useEffect(() => {
-        data.jawapan = jawapan
-        data.rujukan = rujukan
-        props.setDetectChange(isOpen)
-    }, [isOpen])
+
+
+    const onSubmit = async (event: any) => {
+        event.preventDefault();
+        console.log("Soalan : ", jawapan, "Type", props.title, "Time", Date.now())
+
+        const newQuestion = {
+            soalan: jawapan,
+            jawapan: null,
+            rujukan: null,
+            kategori: props.title,
+            timestamp: Date.now()
+        }
+
+
+
+        await present({ message: 'Loading...' })
+
+
+
+        const docRef = await addDoc(collection(db, "soalan"), newQuestion);
+        console.log("Document written with ID: ", docRef.id);
+        if (docRef.id) {
+            props.setModalOpen(false)
+            dismiss()
+            alert({
+                header: 'Soalan berjaya dihantar',
+                message: 'Jawapan akan ditunjukkan pada paparan ini jika soalan ini telah dijawab.',
+                buttons: [{ text: 'Ok' }]
+            })
+            setJawapan('')
+            console.log(docRef.id)
+        }
+
+    };
+
     return (
         <>
             <IonCard >
                 <IonCardContent>
-                    <IonGrid style={{ margin: '-15px 0' }}>
-                        <IonRow style={{ marginLeft: '-20px' }}>
-                            <IonChip color="primary" style={{ fontSize: '0.8rem' }}> {data.kategori}</IonChip>
-                        </IonRow>
-                        <IonRow>
-                            <IonLabel style={{ fontSize: '0.9rem', whiteSpace: 'pre-line' }}>
-                                {data.soalan}
+
+                    <div>
+                        <IonLabel style={{ fontSize: '0.8rem', whiteSpace: 'pre-line' }}>
+                            Soalan : {"\n" + data.soalan + "\n"}
+
+
+                        </IonLabel>
+                        <IonItemDivider>
+                            <IonLabel>
+                                Kategori : {data.kategori + "\n"}
                             </IonLabel>
-                        </IonRow>
-                        <IonRow style={{ marginLeft: '20px' }}>
-                            <IonCol size='9' ></IonCol>
-                            <IonCol size='3'>
-                                <IonButton size="small" onClick={() => { setIsOpen(true) }}>
-                                    {props.editSave ? "Jawab" : "Edit"}
-                                </IonButton>
-                            </IonCol>
-                        </IonRow>
-                    </IonGrid>
+                        </IonItemDivider>
+                    </div>
                 </IonCardContent>
             </IonCard>
 
-            <IonModal isOpen={isOpen}>
-                <IonHeader>
-                    <IonToolbar color={"primary"}>
-                        <IonTitle>e-Pamil</IonTitle>
-                        <IonButtons slot="end">
-                            <IonButton onClick={() => setIsOpen(false)}>Close</IonButton>
-                        </IonButtons>
-                    </IonToolbar>
-                </IonHeader>
-                <IonContent className="ion-padding">
-                    <AnswerForm data={data} setIsOpen={setIsOpen} />
-                </IonContent>
-            </IonModal>
 
         </>
     )
 }
-const Admin = (props: any) => {
+const AdminRoot = (props: any) => {
     const [connection, setConnection] = useState(false)
     const [alert] = useIonAlert();
     const [present, dismiss] = useIonLoading();
@@ -91,8 +101,6 @@ const Admin = (props: any) => {
     const [currentPage, setCurrentPage] = useState("baru")
     const [category, setCategory] = useState('Semua')
     const navigate = useNavigate();
-    const [detectChange, setDetectChange] = useState(false)
-    
     useEffect(() => {
         async function getQuestions() {
             const q = query(collection(db, "soalan"))
@@ -108,14 +116,6 @@ const Admin = (props: any) => {
         logCurrentNetworkStatus();
         getQuestions()
     }, [])
-
-    // useEffect(()=>{
-    //     console.log('Change')
-        
-    //     setAdditionalQuestions(additionalQuestions)
-    //     console.log(additionalQuestions)
-    // },[detectChange])
-
 
     return (
         <>
@@ -167,7 +167,14 @@ const Admin = (props: any) => {
                 .map((data: any, index: number) => {
                     return (
                         <>
-                            <AnswersCard key={index} index={"additional-" + index} data={data} connection={connection} editSave={currentPage == 'baru'} setDetectChange={setDetectChange} />
+                            <Link to={`answerform/${data.id}`} style={{ textDecoration: 'none' }}>
+                                <AnswersCard key={index} index={"additional-" + index} data={data} connection={connection} />
+                                {/* <button onClick={()=>{navigate("")}}>Navigate</button> */}
+                            </Link>
+                            <IonNavLink routerDirection="forward" component={() => <AnswersCard key={index} index={"additional-" + index} data={data} connection={connection} />}>
+                                <IonButton>Go to Page Two</IonButton>
+                            </IonNavLink>
+
                         </>
                     )
                 })}
@@ -175,4 +182,4 @@ const Admin = (props: any) => {
     )
 }
 
-export default Admin;
+export default AdminRoot;
