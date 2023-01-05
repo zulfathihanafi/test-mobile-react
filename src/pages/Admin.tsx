@@ -36,8 +36,6 @@ const AnswersCard = (props: any) => {
     const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
-        data.jawapan = jawapan
-        data.rujukan = rujukan
         props.setDetectChange(isOpen)
     }, [isOpen])
     return (
@@ -65,7 +63,7 @@ const AnswersCard = (props: any) => {
                 </IonCardContent>
             </IonCard>
 
-            <IonModal isOpen={isOpen}>
+            <IonModal onDidDismiss={() => { setIsOpen(false) }}  isOpen={isOpen}>
                 <IonHeader>
                     <IonToolbar color={"primary"}>
                         <IonTitle>e-Pamil</IonTitle>
@@ -109,12 +107,6 @@ const Admin = (props: any) => {
         getQuestions()
     }, [])
 
-    // useEffect(()=>{
-    //     console.log('Change')
-        
-    //     setAdditionalQuestions(additionalQuestions)
-    //     console.log(additionalQuestions)
-    // },[detectChange])
 
 
     return (
@@ -167,7 +159,7 @@ const Admin = (props: any) => {
                 .map((data: any, index: number) => {
                     return (
                         <>
-                            <AnswersCard key={index} index={"additional-" + index} data={data} connection={connection} editSave={currentPage == 'baru'} setDetectChange={setDetectChange} />
+                            <AnswersCard key={index}  data={data} connection={connection} editSave={currentPage == 'baru'} setDetectChange={setDetectChange} />
                         </>
                     )
                 })}

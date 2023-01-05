@@ -73,6 +73,7 @@ const AnswersCard = (props: any) => {
                 message: 'Jawapan akan dipaparkan kepada pengguna.',
                 buttons: [{ text: 'Ok' }]
             }).then(() => {
+                data.jawapan = jawapan
                 props.setIsOpen(false) //close the modal
             })
 
