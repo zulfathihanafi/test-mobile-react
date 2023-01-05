@@ -153,7 +153,7 @@ const QuestionsPages = (props: any) => {
     useEffect(() => {
 
         setAdditionalQuestions([])
-        async function getCities() {
+        async function getQuestions() {
             const q = query(collection(db, "soalan"), where("kategori", "==", props.title))
             const querySnapshot = await getDocs(q);
             var data = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
@@ -161,7 +161,7 @@ const QuestionsPages = (props: any) => {
             setAdditionalQuestions(data)
             
         }
-
+        getQuestions()
         // console.log(ExternalData)
 
         const logCurrentNetworkStatus = async () => {
