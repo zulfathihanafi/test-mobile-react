@@ -10,7 +10,7 @@ import { useState, useEffect } from 'react';
 
 import { app } from "../firebase"
 
-import { getFirestore, doc, setDoc, addDoc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
+import { getFirestore, doc, setDoc, addDoc, getDoc, collection, query, where, getDocs, updateDoc } from "firebase/firestore";
 
 import { Network } from "@capacitor/network"
 
@@ -22,7 +22,8 @@ interface QuestionData {
     soalan: string,
     jawapan: string,
     rujukan: string,
-    kategori: string
+    kategori: string,
+    id: string
 }
 
 const db = getFirestore(app);
@@ -39,36 +40,21 @@ const AnswersCard = (props: any) => {
 
     const onSubmit = async (event: any) => {
         event.preventDefault();
-        console.log("Soalan : ", jawapan, "Type", props.title, "Time", Date.now())
-
-        const newQuestion = {
-            soalan: jawapan,
-            jawapan: null,
-            rujukan: null,
-            kategori: props.title,
-            timestamp: Date.now()
-        }
-
-
-
+        const docRef = doc(db, "soalan", data.id);
         await present({ message: 'Loading...' })
-
-
-
-        const docRef = await addDoc(collection(db, "soalan"), newQuestion);
-        console.log("Document written with ID: ", docRef.id);
-        if (docRef.id) {
-            props.setModalOpen(false)
+        // Set the "capital" field of the city 'DC'
+        await updateDoc(docRef, {
+            jawapan : jawapan,
+            rujukan : rujukan
+        }).then(()=>{
             dismiss()
             alert({
-                header: 'Soalan berjaya dihantar',
-                message: 'Jawapan akan ditunjukkan pada paparan ini jika soalan ini telah dijawab.',
+                header: 'Jawapan berjaya dihantar',
+                message: 'Jawapan akan dipaparkan kepada pengguna.',
                 buttons: [{ text: 'Ok' }]
             })
-            setJawapan('')
-            console.log(docRef.id)
-        }
-
+            // setJawapan('')
+        });
     };
 
     return (
@@ -138,7 +124,7 @@ const AnswerForm = (props: any) => {
             const docRef = doc(db, "soalan", String(id));
             const docSnap = await getDoc(docRef);
             const data: any = docSnap.data()
-            setAdditionalQuestions(data)
+            setAdditionalQuestions({...data,id:id})
             console.log("Snap : ", data)
         }
 
