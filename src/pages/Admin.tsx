@@ -34,7 +34,7 @@ const AnswersCard = (props: any) => {
     const [rujukan, setRujukan] = useState(data.rujukan)
     const [connection, setConnection] = useState(props.connection)
     const [isOpen, setIsOpen] = useState(false);
-
+    
     useEffect(() => {
         props.setDetectChange(isOpen)
     }, [isOpen])

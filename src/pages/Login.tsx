@@ -28,6 +28,10 @@ function Login() {
   return (
     <>
       <IonCard>
+        <div style={{textAlign:'center'}}>
+          <h1>Sila Log Masuk</h1>
+        </div>
+        
         <IonCardContent>
           <form onSubmit={onSubmit}>
             <IonItem>

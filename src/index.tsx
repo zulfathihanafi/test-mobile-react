@@ -16,6 +16,7 @@ import { bersuciData, puasaData, solatData, zakatData, pemakananData } from './d
 import AboutUs from './pages/About';
 import Admin from './pages/Admin';
 import AnswerForm from './pages/AnswerForm';
+import Protected from './components/Protected';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
@@ -32,8 +33,9 @@ root.render(
           <Route path="/solat" element={<QuestionsPages data={solatData} title={'Solat'} />} />
           <Route path="/zakat" element={<QuestionsPages data={zakatData} title={'Zakat'} />} />
           <Route path="/about" element={<AboutUs />} />
-          <Route path="/admin" element={<Admin />} />
-          <Route path="/admin/answerform/:id" element={<AnswerForm />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/admin" element={<Protected><Admin /></Protected>} />
+          {/* <Route path="/admin/answerform/:id" element={<AnswerForm />} /> */}
           
           <Route
             path="*"
