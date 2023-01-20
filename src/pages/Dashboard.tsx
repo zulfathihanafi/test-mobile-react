@@ -16,10 +16,9 @@ const ContentCard = (props: any) => {
       {props.link !== "/" &&
         <IonCard>
           <Link to={props.link} className='link' >
-            <img alt={props.title} src={props.image} style={{maxHeight:'100%',maxWidth:'100%'}}/>
+            <img alt={props.title} src={props.image} style={{height:'auto',width:'100%'}}/>
             <IonCardHeader>
               <IonCardTitle>{props.title}</IonCardTitle>
-              <IonCardSubtitle>Card Subtitle</IonCardSubtitle>
             </IonCardHeader>
           </Link>
         </IonCard>

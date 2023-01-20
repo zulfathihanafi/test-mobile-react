@@ -135,7 +135,7 @@ const NewQuestionModal = (props: any) => {
                     ></IonTextarea>
 
                     <div className="ion-margin-top">
-                        <IonButton disabled={!connection} expand="full" onClick={onSubmit} color="secondary" id={`open-modal-${props.title}`}>
+                        <IonButton disabled={!connection || soalan == ""} expand="full" onClick={onSubmit} color="secondary" id={`open-modal-${props.title}`}>
                             <IonIcon icon={addCircle} slot="start" />
                             Hantar Soalan</IonButton>
                     </div>
