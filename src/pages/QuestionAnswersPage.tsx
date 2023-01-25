@@ -11,8 +11,9 @@ import { useState, useEffect } from 'react';
 import { app } from "../firebase"
 
 import { getFirestore, doc, setDoc, addDoc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
-
+import '../App.css';
 import { Network } from "@capacitor/network"
+import { Link } from 'react-router-dom';
 
 
 interface QuestionData {
@@ -180,6 +181,7 @@ const QuestionsPages = (props: any) => {
 
     return (
         <div>
+            <Link to={'/'} className='link'> <h3> &#x2190; Kembali </h3> </Link>
             <h2>{props.title} </h2>
             <IonAccordionGroup expand="inset">
                 {questionsData.map((data, index) => {
