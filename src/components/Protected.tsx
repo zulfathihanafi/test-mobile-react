@@ -1,13 +1,14 @@
 import React from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import Login from "../pages/Login";
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { getAuth,signInWithPopup, onAuthStateChanged, signOut, GoogleAuthProvider } from "firebase/auth";
 import { auth } from "../firebase"
 interface Props { children: JSX.Element | JSX.Element[] }
 const Protected = ({ children }: Props) => {
     const test = Math.random()
     const [user, setUser] = React.useState<any>(test > 0.5 ? "Allowed" : undefined);
     React.useEffect(() => {
+        
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 // User is signed in, see docs for a list of available properties
@@ -15,7 +16,9 @@ const Protected = ({ children }: Props) => {
                 const uid = user.uid;
                 const email = user.email;
                 console.log(uid, email)
-
+                if(uid != "zGYu9badGUONdh2lb1uPfs3xc3U2"){
+                    signOut(auth)
+                }
                 setUser(user)
 
             } else {

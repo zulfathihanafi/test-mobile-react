@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   IonButtons,
   IonContent,
@@ -16,8 +16,9 @@ import {
   IonApp
 } from '@ionic/react';
 import { Outlet, Link } from "react-router-dom";
-import { star, homeOutline, helpCircleOutline } from 'ionicons/icons';
-
+import { star, homeOutline, helpCircleOutline, logOut } from 'ionicons/icons';
+import { getAuth, signInWithPopup, onAuthStateChanged, signOut, GoogleAuthProvider } from "firebase/auth";
+import { auth } from "../firebase"
 const linkData = [
   { title: 'Dashboard', link: '/' },
   { title: 'Bersuci', link: 'bersuci' },
@@ -61,25 +62,55 @@ const ItemDashboard = (props: any) => {
 }
 
 const Footer = () => {
+  const [user, setUser] = useState<any>()
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        const uid = user.uid;
+        const email = user.email;
+        console.log(uid, email)
+        if (uid != "zGYu9badGUONdh2lb1uPfs3xc3U2") {
+          signOut(auth)
+        }
+        setUser(user)
+
+      }
+    });
+  }, [user])
   return (
-    <div style={{ bottom: '0', padding: '10px 10px', position: 'absolute', width: '100%', borderTop: '1px solid #d9d9d9' }} >
-      <IonMenuToggle>
-        <Link to={'/admin'} className='link' >
-          <IonButton expand="full">
-            <IonIcon slot="start" icon={helpCircleOutline}></IonIcon>
-            Admin
-          </IonButton>
-        </Link>
-      </IonMenuToggle>
-      <IonMenuToggle>
-        <Link to={'/about'} className='link' relative="path">
-          <IonButton expand="full">
-            <IonIcon slot="start" icon={helpCircleOutline}></IonIcon>
-            Tentang Kami
-          </IonButton>
-        </Link>
-      </IonMenuToggle>
-    </div>
+
+    <>
+
+      <div style={{ bottom: '0', padding: '10px 10px', position: 'absolute', width: '100%', borderTop: '1px solid #d9d9d9' }} >
+        <IonMenuToggle>
+          <Link to={'/admin'} className='link' >
+            <IonButton expand="full">
+              <IonIcon slot="start" icon={helpCircleOutline}></IonIcon>
+              Admin
+            </IonButton>
+          </Link>
+        </IonMenuToggle>
+        {user && (
+          <IonMenuToggle>
+            <IonButton expand="full" color={'danger'} onClick={() => { signOut(auth); setUser(undefined) }}>
+              <IonIcon slot="start" icon={logOut}></IonIcon>
+              Log Keluar
+            </IonButton>
+          </IonMenuToggle>
+        )}
+        <IonMenuToggle>
+          <Link to={'/about'} className='link' relative="path">
+            <IonButton expand="full">
+              <IonIcon slot="start" icon={helpCircleOutline}></IonIcon>
+              Tentang Kami
+            </IonButton>
+          </Link>
+        </IonMenuToggle>
+
+      </div>
+    </>
 
   )
 }
@@ -97,7 +128,7 @@ function MenuBar() {
           </IonToolbar>
         </IonHeader>
         <IonContent className="ion-padding" >
-          {linkData.map((data,index) => (
+          {linkData.map((data, index) => (
             data.link === "/" ? <ItemDashboard key={index} link={data.link} title={data.title} /> : <Item key={index} link={data.link} title={data.title} />
           ))}
         </IonContent>

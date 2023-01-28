@@ -16,6 +16,9 @@ import { Network } from "@capacitor/network"
 
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import AnswerForm from './AnswerForm';
+import { getAuth,signInWithPopup, onAuthStateChanged, signOut, GoogleAuthProvider } from "firebase/auth";
+import { auth } from "../firebase"
+
 interface QuestionData {
     soalan: string,
     jawapan: string,
@@ -92,6 +95,26 @@ const Admin = (props: any) => {
     const [detectChange, setDetectChange] = useState(false)
     
     useEffect(() => {
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in, see docs for a list of available properties
+                // https://firebase.google.com/docs/reference/js/firebase.User
+                const uid = user.uid;
+                const email = user.email;
+                console.log(uid, email)
+                if(uid != "zGYu9badGUONdh2lb1uPfs3xc3U2"){
+                    signOut(auth)
+                }
+                
+
+            } else {
+                // User is signed out
+                // ...
+                navigate('/login')
+            }
+        });
+
         async function getQuestions() {
             const q = query(collection(db, "soalan"))
             const querySnapshot = await getDocs(q);
