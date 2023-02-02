@@ -1,9 +1,9 @@
-import { IonButton, IonCard, IonCardContent, IonIcon, IonInput, IonItem, IonLabel, useIonAlert, useIonLoading } from "@ionic/react";
+import { IonButton, IonCard, IonCardContent, IonIcon, IonImg, IonInput, IonItem, IonLabel, useIonAlert, useIonLoading } from "@ionic/react";
 import { useNavigate } from "react-router-dom";
 import { logIn, logoGoogle } from 'ionicons/icons';
 import { getAuth, signInWithPopup, onAuthStateChanged, signOut, GoogleAuthProvider } from "firebase/auth";
 import { auth } from "../firebase"
-
+import google from "../images/GoogleLogo.png"
 function Login() {
   const navigate = useNavigate();
   const [alert] = useIonAlert();
@@ -58,11 +58,16 @@ function Login() {
         <IonCardContent>
             <div className="ion-margin-top">
               <IonButton expand="full" onClick={(e: any) => { onSubmit(e) }} color="secondary">
-                <IonIcon icon={logoGoogle} slot="start" />
-                Log Masuk dengan Akaun Google
+                
+                <IonImg src={google} style={{height:'100%', paddingRight:'10px'}}></IonImg>
+                {/* <IonIcon src={google} slot="start" /> */}
+                Log Masuk dengan Google
                 </IonButton>
             </div>
-        
+            <IonIcon>
+              
+            </IonIcon>
+            
         </IonCardContent>
       </IonCard>
     </>
