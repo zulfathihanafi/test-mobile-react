@@ -16,7 +16,7 @@ import {
   IonApp
 } from '@ionic/react';
 import { Outlet, Link } from "react-router-dom";
-import { star, homeOutline, helpCircleOutline, logOut } from 'ionicons/icons';
+import { star, homeOutline, helpCircleOutline, logOut, person, logoGoogle } from 'ionicons/icons';
 import { getAuth, signInWithPopup, onAuthStateChanged, signOut, GoogleAuthProvider } from "firebase/auth";
 import { auth } from "../firebase"
 const linkData = [
@@ -61,24 +61,8 @@ const ItemDashboard = (props: any) => {
   )
 }
 
-const Footer = () => {
-  const [user, setUser] = useState<any>()
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/firebase.User
-        const uid = user.uid;
-        const email = user.email;
-        console.log(uid, email)
-        if (uid != "zGYu9badGUONdh2lb1uPfs3xc3U2") {
-          signOut(auth)
-        }
-        setUser(user)
+const Footer = (props: any) => {
 
-      }
-    });
-  }, [user])
   return (
 
     <>
@@ -87,19 +71,11 @@ const Footer = () => {
         <IonMenuToggle>
           <Link to={'/admin'} className='link' >
             <IonButton expand="full">
-              <IonIcon slot="start" icon={helpCircleOutline}></IonIcon>
+              <IonIcon slot="start" icon={person}></IonIcon>
               Admin
             </IonButton>
           </Link>
         </IonMenuToggle>
-        {user && (
-          <IonMenuToggle>
-            <IonButton expand="full" color={'danger'} onClick={() => { signOut(auth); setUser(undefined) }}>
-              <IonIcon slot="start" icon={logOut}></IonIcon>
-              Log Keluar
-            </IonButton>
-          </IonMenuToggle>
-        )}
         <IonMenuToggle>
           <Link to={'/about'} className='link' relative="path">
             <IonButton expand="full">
@@ -117,7 +93,26 @@ const Footer = () => {
 
 
 function MenuBar() {
+  const [test, setTest] = useState<any>(undefined)
+  useEffect(() => {
+    
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        const uid = user.uid;
+        const email = user.email;
+        console.log(uid, email)
+        if (uid != "zGYu9badGUONdh2lb1uPfs3xc3U2") {
+          signOut(auth)
+        }
 
+        setTest(uid)
+      }else{
+        setTest(undefined)
+      }
+    });
+  }, [test])
 
   return (
     <IonApp>
@@ -132,7 +127,7 @@ function MenuBar() {
             data.link === "/" ? <ItemDashboard key={index} link={data.link} title={data.title} /> : <Item key={index} link={data.link} title={data.title} />
           ))}
         </IonContent>
-        <Footer />
+        <Footer test={test} setTest={setTest} />
       </IonMenu>
       <IonPage id="main-content">
         <IonHeader >
@@ -141,6 +136,14 @@ function MenuBar() {
               <IonMenuButton></IonMenuButton>
             </IonButtons>
             <IonTitle>e-Pamil</IonTitle>
+            {test &&
+              (
+                <IonButtons slot="end">
+                  <IonButton onClick={(e)=>{signOut(auth)}}>
+                    <IonIcon icon={logOut} slot="start" />
+                  </IonButton>
+                </IonButtons>
+              )}
           </IonToolbar>
         </IonHeader>
         <IonContent className="ion-padding">

@@ -96,24 +96,24 @@ const Admin = (props: any) => {
     
     useEffect(() => {
 
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                // User is signed in, see docs for a list of available properties
-                // https://firebase.google.com/docs/reference/js/firebase.User
-                const uid = user.uid;
-                const email = user.email;
-                console.log(uid, email)
-                if(uid != "zGYu9badGUONdh2lb1uPfs3xc3U2"){
-                    signOut(auth)
-                }
+        // onAuthStateChanged(auth, (user) => {
+        //     if (user) {
+        //         // User is signed in, see docs for a list of available properties
+        //         // https://firebase.google.com/docs/reference/js/firebase.User
+        //         const uid = user.uid;
+        //         const email = user.email;
+        //         console.log(uid, email)
+        //         if(uid != "zGYu9badGUONdh2lb1uPfs3xc3U2"){
+        //             signOut(auth)
+        //         }
                 
 
-            } else {
-                // User is signed out
-                // ...
-                navigate('/login')
-            }
-        });
+        //     } else {
+        //         // User is signed out
+        //         // ...
+        //         navigate('/login')
+        //     }
+        // });
 
         async function getQuestions() {
             const q = query(collection(db, "soalan"))

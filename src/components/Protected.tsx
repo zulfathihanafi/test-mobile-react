@@ -6,7 +6,7 @@ import { auth } from "../firebase"
 interface Props { children: JSX.Element | JSX.Element[] }
 const Protected = ({ children }: Props) => {
     const test = Math.random()
-    const [user, setUser] = React.useState<any>(test > 0.5 ? "Allowed" : undefined);
+    
     React.useEffect(() => {
         
         onAuthStateChanged(auth, (user) => {
@@ -19,7 +19,7 @@ const Protected = ({ children }: Props) => {
                 if(uid != "zGYu9badGUONdh2lb1uPfs3xc3U2"){
                     signOut(auth)
                 }
-                setUser(user)
+               
 
             } else {
                 // User is signed out
@@ -29,7 +29,7 @@ const Protected = ({ children }: Props) => {
         });
 
 
-    }, [user]);
+    }, []);
     const navigate = useNavigate()
     return (
         <>
