@@ -101,56 +101,48 @@ const getCurrentUser = async () => {
 function MenuBar() {
   const [test, setTest] = useState<any>(undefined)
   useEffect(() => {
-    FirebaseAuthentication.addListener("authStateChange", (user) => {
-      if (user.user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/firebase.User
-        const uid = user.user?.uid;
-        const email = user.user?.email;
-        console.log(uid, email)
-        if (email != "fathiimran8@gmail.com") {
-          FirebaseAuthentication.signOut() 
-        }
+    // FirebaseAuthentication.addListener("authStateChange", (user) => {
+    //   if (user.user) {
+    //     // User is signed in, see docs for a list of available properties
+    //     // https://firebase.google.com/docs/reference/js/firebase.User
+    //     const uid = user.user?.uid;
+    //     const email = user.user?.email;
+    //     console.log(uid, email)
+    //     if (email != "fathiimran8@gmail.com") {
+    //       FirebaseAuthentication.signOut() 
+    //     }
 
-        setTest(uid)
-      } else {
-        setTest(undefined)
-      }
-    })
-    getCurrentUser().then((user) => {
-      if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/firebase.User
+    //     setTest(uid)
+    //   } else {
+    //     setTest(undefined)
+    //   }
+    // })
+    // getCurrentUser().then((user) => {
+    //   if (user) {
+    //     // User is signed in, see docs for a list of available properties
+    //     // https://firebase.google.com/docs/reference/js/firebase.User
+    //     const uid = user.uid;
+    //     const email = user.email;
+    //     console.log(uid, email)
+    //     if (email != "fathiimran8@gmail.com") {
+    //       FirebaseAuthentication.signOut() 
+    //     }
+
+    //     setTest(uid)
+    //   } else {
+    //     setTest(undefined)
+    //   }
+    // })
+    onAuthStateChanged(auth,(user)=>{
+      if(user){
         const uid = user.uid;
         const email = user.email;
         console.log(uid, email)
-        if (email != "fathiimran8@gmail.com") {
-          FirebaseAuthentication.signOut() 
-        }
-
         setTest(uid)
-      } else {
+      }else{
         setTest(undefined)
       }
     })
-    // onAuthStateChanged(auth,(user)=>{
-    //   getCurrentUser().then((user)=>{
-    //     if (user) {
-    //       // User is signed in, see docs for a list of available properties
-    //       // https://firebase.google.com/docs/reference/js/firebase.User
-    //       const uid = user.uid;
-    //       const email = user.email;
-    //       console.log(uid, email)
-    //       if (uid != "8lTMUiqdgQN8qBgpkUv3iOZR94z2") {
-    //         signOut(auth)
-    //       }
-
-    //       setTest(uid)
-    //     }else{
-    //       setTest(undefined)
-    //     }
-    //   })
-    // })
 
   }, [test])
 

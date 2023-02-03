@@ -14,60 +14,58 @@ const Protected = ({ children }: Props) => {
     const test = Math.random()
 
     React.useEffect(() => {
-        getCurrentUser().then((user) => {
-            if (user) {
-                // User is signed in, see docs for a list of available properties
-                // https://firebase.google.com/docs/reference/js/firebase.User
-                const uid = user.uid;
-                const email = user.email;
-                console.log(uid, email)
-                if (email != "fathiimran8@gmail.com") {
-                    FirebaseAuthentication.signOut()
-                }
+        // getCurrentUser().then((user) => {
+        //     if (user) {
+        //         // User is signed in, see docs for a list of available properties
+        //         // https://firebase.google.com/docs/reference/js/firebase.User
+        //         const uid = user.uid;
+        //         const email = user.email;
+        //         console.log(uid, email)
+        //         if (email != "fathiimran8@gmail.com") {
+        //             FirebaseAuthentication.signOut()
+        //         }
 
 
-            }
-        })
-
-        FirebaseAuthentication.addListener('authStateChange', (user) => {
-            if (user.user) {
-                // User is signed in, see docs for a list of available properties
-                // https://firebase.google.com/docs/reference/js/firebase.User
-                const uid = user.user?.uid;
-                const email = user.user?.email;
-                console.log(uid, email)
-                if (email != "fathiimran8@gmail.com") {
-                    FirebaseAuthentication.signOut()
-                }
-
-
-            } else {
-                // User is signed out
-                // ...
-                navigate('/login')
-            }
-        })
-
-        // onAuthStateChanged(auth,(user)=>{
-        //     getCurrentUser().then((user)=>{
-        //         if (user) {
-        //           // User is signed in, see docs for a list of available properties
-        //           // https://firebase.google.com/docs/reference/js/firebase.User
-        //           const uid = user.uid;
-        //           const email = user.email;
-        //           console.log(uid, email)
-        //           if(uid != "8lTMUiqdgQN8qBgpkUv3iOZR94z2"){
-        //               signOut(auth)
-        //           }
-
-
-        //       } else {
-        //           // User is signed out
-        //           // ...
-        //           navigate('/login')
-        //       }
-        //       })
+        //     }
         // })
+
+        // FirebaseAuthentication.addListener('authStateChange', (user) => {
+        //     if (user.user) {
+        //         // User is signed in, see docs for a list of available properties
+        //         // https://firebase.google.com/docs/reference/js/firebase.User
+        //         const uid = user.user?.uid;
+        //         const email = user.user?.email;
+        //         console.log(uid, email)
+        //         if (email != "fathiimran8@gmail.com") {
+        //             FirebaseAuthentication.signOut()
+        //         }
+
+
+        //     } else {
+        //         // User is signed out
+        //         // ...
+        //         navigate('/login')
+        //     }
+        // })
+
+        onAuthStateChanged(auth,(user)=>{
+            getCurrentUser().then((user)=>{
+                if (user) {
+                  // User is signed in, see docs for a list of available properties
+                  // https://firebase.google.com/docs/reference/js/firebase.User
+                  const uid = user.uid;
+                  const email = user.email;
+                  console.log(uid, email)
+                  
+
+
+              } else {
+                  // User is signed out
+                  // ...
+                  navigate('/login')
+              }
+              })
+        })
 
 
     }, []);
