@@ -20,7 +20,7 @@ function Login() {
         // The signed-in user info.
         const user = result.user;
         console.log(user.uid)
-        if(user.uid != "zGYu9badGUONdh2lb1uPfs3xc3U2"){
+        if(user.email != "fathiimran8@gmail.com"){
           signOut(auth)
           alert({
             header: 'Harap Maaf',

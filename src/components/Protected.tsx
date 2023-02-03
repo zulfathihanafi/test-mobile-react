@@ -16,7 +16,7 @@ const Protected = ({ children }: Props) => {
                 const uid = user.uid;
                 const email = user.email;
                 console.log(uid, email)
-                if(uid != "zGYu9badGUONdh2lb1uPfs3xc3U2"){
+                if(email != "fathiimran8@gmail.com"){
                     signOut(auth)
                 }
                
