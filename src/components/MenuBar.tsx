@@ -108,7 +108,7 @@ function MenuBar() {
         const uid = user.user?.uid;
         const email = user.user?.email;
         console.log(uid, email)
-        if (uid != "8lTMUiqdgQN8qBgpkUv3iOZR94z2") {
+        if (email != "fathiimran8@gmail.com") {
           FirebaseAuthentication.signOut() 
         }
 
@@ -124,7 +124,7 @@ function MenuBar() {
         const uid = user.uid;
         const email = user.email;
         console.log(uid, email)
-        if (uid != "8lTMUiqdgQN8qBgpkUv3iOZR94z2") {
+        if (email != "fathiimran8@gmail.com") {
           FirebaseAuthentication.signOut() 
         }
 

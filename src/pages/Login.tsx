@@ -28,7 +28,7 @@ function Login() {
         const uid = user.user?.uid;
         const email = user.user?.email;
         console.log(uid, email)
-        if(uid != "8lTMUiqdgQN8qBgpkUv3iOZR94z2"){
+        if(email != "fathiimran8@gmail.com"){
           FirebaseAuthentication.signOut() 
         }
        
@@ -66,7 +66,7 @@ function Login() {
     event.preventDefault();
     await FirebaseAuthentication.signInWithGoogle().then((user) => {
 
-      if (user.user?.uid != "8lTMUiqdgQN8qBgpkUv3iOZR94z2") {
+      if (user.user?.email != "fathiimran8@gmail.com") {
         FirebaseAuthentication.signOut() 
         alert({
           header: 'Harap Maaf',
