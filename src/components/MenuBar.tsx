@@ -19,6 +19,7 @@ import { Outlet, Link } from "react-router-dom";
 import { star, homeOutline, helpCircleOutline, logOut, person, logoGoogle } from 'ionicons/icons';
 import { getAuth, signInWithPopup, onAuthStateChanged, signOut, GoogleAuthProvider } from "firebase/auth";
 import { auth } from "../firebase"
+import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
 const linkData = [
   { title: 'Dashboard', link: '/' },
   { title: 'Bersuci', link: 'bersuci' },
@@ -91,27 +92,66 @@ const Footer = (props: any) => {
   )
 }
 
+const getCurrentUser = async () => {
+  const result = await FirebaseAuthentication.getCurrentUser();
+  console.log(result.user);
+  return result.user;
+};
 
 function MenuBar() {
   const [test, setTest] = useState<any>(undefined)
   useEffect(() => {
-    
-    onAuthStateChanged(auth, (user) => {
+    FirebaseAuthentication.addListener("authStateChange", (user) => {
+      if (user.user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        const uid = user.user?.uid;
+        const email = user.user?.email;
+        console.log(uid, email)
+        if (uid != "8lTMUiqdgQN8qBgpkUv3iOZR94z2") {
+          FirebaseAuthentication.signOut() 
+        }
+
+        setTest(uid)
+      } else {
+        setTest(undefined)
+      }
+    })
+    getCurrentUser().then((user) => {
       if (user) {
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/firebase.User
         const uid = user.uid;
         const email = user.email;
         console.log(uid, email)
-        if (uid != "zGYu9badGUONdh2lb1uPfs3xc3U2") {
-          signOut(auth)
+        if (uid != "8lTMUiqdgQN8qBgpkUv3iOZR94z2") {
+          FirebaseAuthentication.signOut() 
         }
 
         setTest(uid)
-      }else{
+      } else {
         setTest(undefined)
       }
-    });
+    })
+    // onAuthStateChanged(auth,(user)=>{
+    //   getCurrentUser().then((user)=>{
+    //     if (user) {
+    //       // User is signed in, see docs for a list of available properties
+    //       // https://firebase.google.com/docs/reference/js/firebase.User
+    //       const uid = user.uid;
+    //       const email = user.email;
+    //       console.log(uid, email)
+    //       if (uid != "8lTMUiqdgQN8qBgpkUv3iOZR94z2") {
+    //         signOut(auth)
+    //       }
+
+    //       setTest(uid)
+    //     }else{
+    //       setTest(undefined)
+    //     }
+    //   })
+    // })
+
   }, [test])
 
   return (
@@ -139,7 +179,7 @@ function MenuBar() {
             {test &&
               (
                 <IonButtons slot="end">
-                  <IonButton type='button' fill='solid' color={'danger'} onClick={(e)=>{signOut(auth)}}>
+                  <IonButton type='button' fill='solid' color={'danger'} onClick={(e) => { FirebaseAuthentication.signOut() }}>
                     <IonIcon icon={logOut} slot="start" />
                   </IonButton>
                 </IonButtons>
