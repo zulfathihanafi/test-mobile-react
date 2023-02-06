@@ -171,7 +171,7 @@ function MenuBar() {
             {test &&
               (
                 <IonButtons slot="end">
-                  <IonButton type='button' fill='solid' color={'danger'} onClick={(e) => { FirebaseAuthentication.signOut() }}>
+                  <IonButton type='button' fill='solid' color={'danger'} onClick={(e) => { signOut(auth) }}>
                     <IonIcon icon={logOut} slot="start" />
                   </IonButton>
                 </IonButtons>
