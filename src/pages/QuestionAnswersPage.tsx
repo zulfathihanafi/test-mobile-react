@@ -13,7 +13,7 @@ import { app } from "../firebase"
 import { getFirestore, doc, setDoc, addDoc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
 import '../App.css';
 import { Network } from "@capacitor/network"
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 interface QuestionData {
@@ -175,8 +175,14 @@ const QuestionsPages = (props: any) => {
 
         logCurrentNetworkStatus();
     }, [props.title])
+    
+    const navigate = useNavigate();
 
-
+    document.addEventListener('ionBackButton', (ev:any) => {
+        ev.detail.register(10, () => {
+          navigate('/');
+        });
+      });
 
 
 

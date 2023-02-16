@@ -132,6 +132,11 @@ const Admin = (props: any) => {
     }, [])
 
 
+    document.addEventListener('ionBackButton', (ev:any) => {
+        ev.detail.register(10, () => {
+          navigate('/');
+        });
+      });
 
     return (
         <>
