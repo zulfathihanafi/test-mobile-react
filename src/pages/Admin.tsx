@@ -4,7 +4,7 @@ import {
     IonLabel, IonList, IonModal, IonFab, IonFabButton, IonCard, IonCardContent, IonTextarea,
     useIonAlert, useIonLoading, IonApp, IonCol, IonGrid, IonRow, IonSelect, IonSelectOption, IonHeader, IonToolbar, IonTitle, IonButtons
 } from '@ionic/react';
-import { list, add, addCircle } from 'ionicons/icons';
+import { list, add, addCircle, logOut } from 'ionicons/icons';
 
 import { useState, useEffect } from 'react';
 
@@ -18,6 +18,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import AnswerForm from './AnswerForm';
 import { getAuth,signInWithPopup, onAuthStateChanged, signOut, GoogleAuthProvider } from "firebase/auth";
 import { auth } from "../firebase"
+import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
 
 interface QuestionData {
     soalan: string,
@@ -103,8 +104,8 @@ const Admin = (props: any) => {
         //         const uid = user.uid;
         //         const email = user.email;
         //         console.log(uid, email)
-        //         if(uid != "zGYu9badGUONdh2lb1uPfs3xc3U2"){
-        //             signOut(auth)
+        //         if(uid != "8lTMUiqdgQN8qBgpkUv3iOZR94z2"){
+        //             FirebaseAuthentication.signOut() 
         //         }
                 
 
@@ -162,6 +163,13 @@ const Admin = (props: any) => {
                     </IonCol>
 
 
+                </IonRow>
+                <IonRow>
+                <IonButtons slot="end">
+                  <IonButton type='button' fill='solid' color={'danger'} onClick={(e) => { FirebaseAuthentication.signOut() }}>
+                    <IonIcon icon={logOut} slot="start" />
+                  </IonButton>
+                </IonButtons>
                 </IonRow>
             </IonGrid>
 

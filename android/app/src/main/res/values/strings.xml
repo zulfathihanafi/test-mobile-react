@@ -4,4 +4,6 @@
     <string name="title_activity_main">Ibadah On Sea</string>
     <string name="package_name">com.ibadah.app</string>
     <string name="custom_url_scheme">com.ibadah.app</string>
+<!--    <string name="server_client_id">995765152012-2vrprcg82ul3f1k5m7300uhcoas1si4g.apps.googleusercontent.com</string>-->
+    
 </resources>

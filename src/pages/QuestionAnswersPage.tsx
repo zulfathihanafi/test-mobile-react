@@ -151,6 +151,14 @@ const QuestionsPages = (props: any) => {
     const [modalOpen, setModalOpen] = useState(false)
     const [additionalQuestions, setAdditionalQuestions] = useState<any>([])
     const [connection, setConnection] = useState(false)
+
+    const logCurrentNetworkStatus = async () => {
+        const status = await Network.getStatus();
+
+        console.log('Network status:', status);
+        setConnection(status.connected)
+    };
+
     useEffect(() => {
 
         setAdditionalQuestions([])
@@ -164,13 +172,6 @@ const QuestionsPages = (props: any) => {
         }
         getQuestions()
         // console.log(ExternalData)
-
-        const logCurrentNetworkStatus = async () => {
-            const status = await Network.getStatus();
-
-            console.log('Network status:', status);
-            setConnection(status.connected)
-        };
 
         logCurrentNetworkStatus();
     }, [props.title])
