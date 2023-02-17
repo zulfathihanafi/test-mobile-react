@@ -23,8 +23,7 @@ function AboutUs() {
         <h2>Tentang Kami</h2>
             <IonCard>
                 <IonCardContent>
-                    <h3>e-Pamil adalah sebuah aplikasi suka suki</h3>
-                    {'Current status '+connection}
+                    <h3>e-Pamil adalah sebuah aplikasi yang dicipta menggunakan teknologi binaan laman web serta rangka kerja <i>(framework)</i> React dengan beberapa penggunaan bahasa pengaturcaraan seperti TypeScript, HTML, CSS dan JavaScript. Pada asasnya, aplikasi ini merupakan laman web yang biasa sahaja. Namun dengan bantuan Rangka Kerja Capacitor, laman web ini mampu disesuaikan dengan pelbagai platform seperti Android, iOS dan Aplikasi Web yang turut dikenali sebagai aplikasi merentas platform <i>(cross-platform application)</i>.</h3> 
                 </IonCardContent>
             </IonCard>
         </>
